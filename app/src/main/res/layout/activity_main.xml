@@ -17,5 +17,6 @@
             android:layout_height="match_parent"
             android:id="@+id/preview_view" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

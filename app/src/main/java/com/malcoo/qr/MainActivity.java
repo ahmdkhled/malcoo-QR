@@ -18,9 +18,12 @@ import androidx.databinding.DataBindingUtil;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.mlkit.vision.barcode.BarcodeScanner;
+import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.malcoo.qr.databinding.ActivityMainBinding;
 import com.malcoo.qr.utils.CameraUtil;
 import com.malcoo.qr.utils.PermissionUtil;
@@ -43,11 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    }
-
-    void bindCamera() throws ExecutionException, InterruptedException {
 
     }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
