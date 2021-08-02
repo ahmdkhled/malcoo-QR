@@ -3,6 +3,7 @@ package com.malcoo.qr;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.AspectRatio;
+import androidx.camera.core.Camera;
 import androidx.camera.core.CameraProvider;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.CameraX;
@@ -21,9 +22,11 @@ import android.widget.Toast;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.malcoo.qr.databinding.ActivityMainBinding;
+import com.malcoo.qr.utils.CameraUtil;
 import com.malcoo.qr.utils.PermissionUtil;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,11 +38,14 @@ public class MainActivity extends AppCompatActivity {
         binding= DataBindingUtil.setContentView(this,R.layout.activity_main);
         permissionUtil=new PermissionUtil();
 
-
-
-
         permissionUtil.requestCameraPermission(this);
 
+
+
+
+    }
+
+    void bindCamera() throws ExecutionException, InterruptedException {
 
     }
 
@@ -48,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PermissionUtil.PERMISSION_ID) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "hi", Toast.LENGTH_SHORT).show();
+                CameraUtil.getInstance().startCamera(this,this,binding.previewView);
             }else{
                 permissionUtil.showDialog(this,this);
             }
