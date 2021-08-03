@@ -15,12 +15,19 @@ import com.google.mlkit.vision.common.InputImage;
 @SuppressLint("UnsafeOptInUsageError")
 
 public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
+
     private static final String TAG = "BarcodeAnalyzer";
 
     BarcodeScanner scanner;
+    OnBarcodeScannedListener onBarcodeScannedListener;
 
     public BarcodeAnalyzer(BarcodeScanner scanner) {
         this.scanner = scanner;
+    }
+
+    public BarcodeAnalyzer(BarcodeScanner scanner, OnBarcodeScannedListener onBarcodeScannedListener) {
+        this.scanner = scanner;
+        this.onBarcodeScannedListener = onBarcodeScannedListener;
     }
 
     @Override
@@ -31,9 +38,13 @@ public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
             scanner.process(image)
                     .addOnSuccessListener(barcodes -> {
                         Log.d(TAG, "analyze: success "+barcodes);
-                        for (Barcode barcode:barcodes) {
-                            Log.d(TAG, "got one : "+barcode.getRawValue());
+                        if (!barcodes.isEmpty()){
+                            onBarcodeScannedListener.oBarcodeScanned(barcodes.get(0));
+                            Log.d(TAG, "got one : "+barcodes.get(0).getRawValue());
                         }
+
+
+
                     })
                     .addOnFailureListener(e -> {
                         Log.d(TAG, "analyze: "+e.getMessage());
@@ -42,7 +53,7 @@ public class BarcodeAnalyzer implements ImageAnalysis.Analyzer {
         }
     }
 
-    interface OnBarcodeScanned{
+    public interface OnBarcodeScannedListener {
         void oBarcodeScanned(Barcode barcode);
     }
 }

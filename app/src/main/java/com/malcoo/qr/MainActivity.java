@@ -18,13 +18,16 @@ import androidx.databinding.DataBindingUtil;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.mlkit.vision.barcode.Barcode;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.malcoo.qr.databinding.ActivityMainBinding;
+import com.malcoo.qr.utils.BarcodeAnalyzer;
 import com.malcoo.qr.utils.CameraUtil;
 import com.malcoo.qr.utils.PermissionUtil;
 
@@ -43,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
         permissionUtil.requestCameraPermission(this);
 
+        CameraUtil.getInstance().setOnBarcodeScannedListener(barcode -> {
+            Log.d("BAR_CODE", "result : "+barcode.getRawValue());
+            binding.barcodeValue.setText(barcode.getRawValue());
+        });
 
 
 
